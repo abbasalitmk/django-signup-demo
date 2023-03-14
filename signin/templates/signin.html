@@ -1,6 +1,45 @@
 {% extends 'base.html' %}
 
-{% block 'content' %}
-    hello
-    {{message}}
-{% endblock 'content' %}
+
+{% block 'content'%}
+
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="card col-5 p-5">
+            <h2 class="text-center">Login</h2>
+            {% if messages %}
+            
+            {% for message in messages %}
+
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{message}}
+            </div>
+            {% endfor %}
+            {%endif%}
+            
+            <form action="" method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="" class="form-label">Username : </label>
+                    <input type="text" name="username" id="" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Password : </label>
+                    <input type="password" name="password" id="" class="form-control">
+                </div>
+
+                <div class="d-grid ">
+                    <button class="btn btn-success btn-lg" type="submit">Sign In</button>
+                </div>
+                <p class="text-center mt-2">Not a member? <a href='{% url 'signup' %}'>Signup now</a></p>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock 'content'%}

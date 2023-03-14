@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.views.decorators.cache import cache_control
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def signup(request):
+
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('dashboard')
+        else:
+            return redirect('home')
 
     if request.method == 'POST':
         fullname = request.POST['fullname']
@@ -38,5 +45,6 @@ def signup(request):
         user.first_name = fullname
         user.save()
         messages.success(request, 'User created successfully')
+        return redirect('signin')
 
     return render(request, 'signup.html')
